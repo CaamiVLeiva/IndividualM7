@@ -1,0 +1,6 @@
+{% extends "taskmanager/base.html" %}
+{% block content %}
+    <h1>Bienvenido</h1>
+    <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
+    <a href="{% url 'create_user' %}" class="btn btn-primary">Registrarse</a>
+{% endblock %}
