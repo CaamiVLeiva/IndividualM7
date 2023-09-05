@@ -29,4 +29,3 @@ En esta segunda versión del proyecto, se llevaron a cabo las siguientes tareas 
 
 4. **Requisitos de Tareas:** Se garantizó que cada tarea esté compuesta por un título, descripción, fecha de vencimiento, estado (que puede ser "pendiente", "en progreso" o "completada") y una etiqueta (por ejemplo, "trabajo", "hogar" o "estudio").
 
-Puedes consultar los detalles del modelo de datos actualizado en el código fuente del proyecto.
