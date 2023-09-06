@@ -29,5 +29,6 @@ urlpatterns = [
     path('tareas_pendientes/', views.listar_tareas_pendientes, name='listar_tareas_pendientes'),
     path('editar_tarea/<int:task_id>/', views.editar_tarea, name='editar_tarea'),
     path('eliminar_tarea/<int:task_id>/', views.eliminar_tarea, name='eliminar_tarea'),
+    path('editar_observaciones/<int:pk>/', views.editar_observaciones, name='editar_observaciones'),
     path('', views.index, name='index'),
 ]

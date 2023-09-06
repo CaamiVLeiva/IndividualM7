@@ -1,8 +1,8 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CustomUserCreationForm, CustomAuthenticationForm, TaskForm
-from .models import Task
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, TaskForm, TaskFilterForm
+from .models import Task,Tag
 
 # Create your views here.
 def login_view(request):
@@ -37,31 +37,54 @@ def create_user(request):
 
 @login_required
 def listar_tareas_pendientes(request):
-    tareas_pendientes = Task.objects.filter(estado='pendiente', usuario=request.user).order_by('fecha_vencimiento')
-    return render(request, 'taskmanager/listar_tareas_pendientes.html', {'tareas_pendientes': tareas_pendientes})
+    tareas_pendientes = Task.objects.filter(usuario=request.user).prefetch_related('etiquetas')  # Usamos prefetch_related para cargar las etiquetas relacionadas
+    if request.method == 'GET':
+        form = TaskFilterForm(request.GET)
+        if form.is_valid():
+            estado = form.cleaned_data.get('estado')
+            etiquetas = form.cleaned_data.get('etiquetas')
+            fecha_vencimiento = form.cleaned_data.get('fecha_vencimiento')
+            if estado:
+                tareas_pendientes = tareas_pendientes.filter(estado=estado)
+            if etiquetas:
+                tareas_pendientes = tareas_pendientes.filter(etiquetas__in=etiquetas)
+            if fecha_vencimiento:
+                tareas_pendientes = tareas_pendientes.filter(fecha_vencimiento__date=fecha_vencimiento)
+            
+            if 'limpiar_filtros' in request.GET:
+                return redirect('listar_tareas_pendientes')
+    else:
+        form = TaskFilterForm()
+    return render(request, 'taskmanager/listar_tareas_pendientes.html', {'form': form, 'tareas_pendientes': tareas_pendientes})
 
+@login_required
 def crear_tarea(request):
     if request.method == 'POST':
-        # Procesar el formulario de creación de tarea
         form = TaskForm(request.POST)
         if form.is_valid():
             tarea = form.save(commit=False)
             tarea.usuario = request.user
             tarea.save()
-            return redirect('listar_tareas_pendientes')  # Redirigir a la lista de tareas pendientes
+            form.save_m2m()
+            return redirect('listar_tareas_pendientes')
     else:
-        form = TaskForm()  # Mostrar un formulario en blanco
-
+        form = TaskForm()
     return render(request, 'taskmanager/crear_tarea.html', {'form': form})
 
 def ver_tarea(request, task_id):
     tarea = get_object_or_404(Task, pk=task_id)
+    
+    # Obtén las etiquetas asociadas a la tarea
+    etiquetas = tarea.etiquetas.all()
+    
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == 'completar':
             tarea.estado = 'completada'
             tarea.save()
-    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea})
+    
+    # Pasa las etiquetas a la plantilla
+    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea, 'etiquetas': etiquetas})
 
 def editar_tarea(request, task_id):
     tarea = get_object_or_404(Task, id=task_id)
@@ -80,3 +103,12 @@ def eliminar_tarea(request, task_id):
         tarea.delete()
         return redirect('listar_tareas_pendientes')
     return render(request, 'taskmanager/listar_tareas_pendientes', {'task': tarea})
+
+def editar_observaciones(request, pk):
+    tarea = get_object_or_404(Task, pk=pk)
+    if request.method == 'POST':
+        observaciones = request.POST.get('observaciones')
+        tarea.observaciones = observaciones
+        tarea.save()
+        return redirect('ver_tarea', task_id=pk)
+    return render(request, 'taskmanager/editar_observaciones.html', {'task': tarea})

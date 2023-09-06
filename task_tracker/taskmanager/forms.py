@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Task, Tag
 
-
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=30, required=True)
 
@@ -27,10 +26,9 @@ class CustomAuthenticationForm(AuthenticationForm):
     )
 
 class TaskForm(forms.ModelForm):
-    etiquetas = forms.ModelChoiceField(
+    etiquetas = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
-        empty_label="Selecciona una etiqueta",  # Texto para la opción vacía
-        required=False,  # Para permitir que el usuario no seleccione ninguna etiqueta
+        widget=forms.CheckboxSelectMultiple,
     )
     class Meta:
         model = Task
@@ -42,3 +40,13 @@ class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['fecha_vencimiento'].widget.attrs.update({'class': 'datepicker'})
+
+class TaskFilterForm(forms.Form):
+    ESTADO_CHOICES = (
+        ('pendiente', 'Pendiente'),
+        ('en_progreso', 'En Progreso'),
+        ('completada', 'Completada'),
+    )
+    estado = forms.ChoiceField(choices=Task.ESTADO_CHOICES, required=False)
+    etiquetas = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
+    fecha_vencimiento = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))

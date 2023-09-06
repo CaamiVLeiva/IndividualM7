@@ -14,5 +14,8 @@
         {{ form.etiquetas }}
         <button type="submit" class="btn btn-primary">Crear</button>
     </form>
+    {% if tarea.id %}
+    <a href="{% url 'editar_observaciones' tarea.id %}">Editar Observaciones</a>
+    {% endif %}
 </div>
 {% endblock %}

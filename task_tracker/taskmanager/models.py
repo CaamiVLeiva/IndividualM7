@@ -20,8 +20,9 @@ class Task(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_vencimiento = models.DateTimeField(null=True, blank=True)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
-    etiquetas = models.ManyToManyField(Tag, blank=True)
+    etiquetas = models.ManyToManyField(Tag, related_name='tareas')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    observaciones = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.titulo

@@ -21,8 +21,16 @@
         {% if task.estado == 'completada' %}Completada{% else %}Completar{% endif %}
     </button>
 </form>
-
-
+<br><br>
+<!-- Agregar un formulario para editar las observaciones -->
+<form method="POST" action="{% url 'editar_observaciones' task.id %}">
+    {% csrf_token %}
+    <h3>Observaciones</h3>
+    <textarea name="observaciones" rows="4" cols="50">{{ task.observaciones }}</textarea>
+    <br>
+    <button type="submit" class="btn btn-primary">Guardar Observaciones</button>
+</form>
+<br><br>
     <table class="table">
         <thead>
             <tr>

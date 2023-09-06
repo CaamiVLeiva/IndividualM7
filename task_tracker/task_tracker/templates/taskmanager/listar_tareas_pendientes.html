@@ -1,14 +1,27 @@
 {% extends "taskmanager/base.html" %}
 
 {% block content %}
-<h2>Tareas Pendientes {{user}}</h2>
+<h2>Tareas Pendientes {{ user }}</h2>
 <a href="{% url 'crear_tarea' %}" class="btn btn-primary">Agregar Tarea</a>
-<table class="table">
+
+<form method="GET" action="{% url 'listar_tareas_pendientes' %}" class="form-inline mt-3">
+    {{ form.estado.label_tag }}
+    {{ form.estado }}
+    {{ form.etiquetas.label_tag }}
+    {{ form.etiquetas }}
+    {{ form.fecha_vencimiento.label_tag }}
+    {{ form.fecha_vencimiento }}
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+    <a href="{% url 'listar_tareas_pendientes' %}" class="btn btn-secondary ml-2">Limpiar filtros</a>
+</form>
+
+<table class="table mt-3">
     <thead>
         <tr>
             <th>Titulo</th>
             <th>Descripción</th>
             <th>Fecha de Vencimiento</th>
+            <th>Etiqueta</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -19,12 +32,20 @@
             <td>{{ tarea.descripcion }}</td>
             <td>{{ tarea.fecha_vencimiento }}</td>
             <td>
+                {% for etiqueta in tarea.etiquetas.all %}
+                {{ etiqueta.nombre }}
+                {% endfor %}
+            </td>
+            
+            <td>
+                {% if tarea.id %}
                 <a href="{% url 'ver_tarea' tarea.id %}" class="btn btn-info">Ver</a>
+                {% endif %}
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="3">No hay tareas pendientes.</td>
+            <td colspan="5">No hay tareas pendientes.</td>
         </tr>
         {% endfor %}
     </tbody>

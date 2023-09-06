@@ -45,4 +45,21 @@ En esta tercera versión del proyecto, se implementaron las siguientes mejoras y
 
 - **Tarea Ingresada por Base de Datos:** Una tarea llamada "tareadb" fue creada por el usuario "admin" y se encuentra en la base de datos como parte de la demostración del proyecto.
 
-Estos cambios mejoran significativamente la funcionalidad de nuestro proyecto de gestión de tareas, permitiéndote administrar y visualizar tus tareas de manera más efectiva. ¡Esperamos que estos cambios sean útiles para ti!
+## Realización del Proyecto (Versión 4.0)
+
+En esta cuarta versión del proyecto, hemos realizado mejoras y correcciones para garantizar un funcionamiento más fluido y una experiencia de usuario aún mejor. Además de las actualizaciones mencionadas anteriormente, hemos abordado los siguientes puntos:
+
+### Mejora en la Interfaz de Usuario
+Hemos optimizado la interfaz de usuario para que sea más intuitiva y agradable. Se han realizado ajustes en la disposición de elementos y se ha trabajado en la usabilidad general de la aplicación.
+
+### Corrección de Errores
+Se han solucionado pequeños problemas que se encontraron en versiones anteriores, como errores de redirección.
+
+### Función de Filtro Avanzado
+Ahora, en la vista de listado de tareas pendientes, los usuarios pueden utilizar un filtro avanzado para buscar tareas específicas según criterios como etiquetas, estado y fecha de vencimiento. Esto facilita la gestión de tareas cuando hay muchas en la lista.
+
+### Mejoras en la Creación y Edición de Tareas
+La vista de creación y edición de tareas ha sido perfeccionada para que sea más eficiente y precisa. Ahora puedes seleccionar múltiples etiquetas para una tarea y definir el estado de manera más sencilla.
+
+### Función de Observaciones
+Respondiendo a la solicitud del cliente, hemos añadido un campo de observaciones en la vista de visualización de tareas. Los usuarios pueden registrar observaciones detalladas sobre cada tarea, y estas observaciones son editables en cualquier momento. Esto permite un mejor seguimiento y documentación de las tareas.
