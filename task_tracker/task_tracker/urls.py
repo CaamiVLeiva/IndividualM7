@@ -23,7 +23,11 @@ urlpatterns = [
     path('', include('taskmanager.urls')),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('landing/', views.landing, name='landing'),
     path('create_user/', views.create_user, name= 'create_user'),
+    path('crear_tarea', views.crear_tarea, name='crear_tarea'),
+    path('ver_tarea/<int:task_id>', views.ver_tarea, name='ver_tarea'),
+    path('tareas_pendientes/', views.listar_tareas_pendientes, name='listar_tareas_pendientes'),
+    path('editar_tarea/<int:task_id>/', views.editar_tarea, name='editar_tarea'),
+    path('eliminar_tarea/<int:task_id>/', views.eliminar_tarea, name='eliminar_tarea'),
     path('', views.index, name='index'),
 ]

@@ -1,0 +1,18 @@
+{% extends "taskmanager/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Crear Tarea</h2>
+    <form method="POST" action="{% url 'crear_tarea' %}">
+        {% csrf_token %}
+        {{ form.titulo.label_tag }}
+        {{ form.titulo }}
+        {{ form.descripcion.label_tag }}
+        {{ form.descripcion }}
+        {{ form.fecha_vencimiento.label_tag }}
+        <input type="datetime-local" id="id_fecha_vencimiento" name="fecha_vencimiento" required placeholder="YYYY-MM-DDTHH:mm">
+        {{ form.etiquetas.label_tag }}
+        {{ form.etiquetas }}
+        <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+</div>
+{% endblock %}
