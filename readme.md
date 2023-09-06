@@ -26,4 +26,23 @@ En esta segunda versión del proyecto, se llevaron a cabo las siguientes tareas 
 
 4. **Requisitos de Tareas:** Se garantizó que cada tarea esté compuesta por un título, descripción, fecha de vencimiento, estado (que puede ser "pendiente", "en progreso" o "completada") y una etiqueta (por ejemplo, "trabajo", "hogar" o "estudio").
 
-Puedes consultar los detalles del modelo de datos actualizado en el código fuente del proyecto.
+## Realización del Proyecto (Versión 3.0)
+
+En esta tercera versión del proyecto, se implementaron las siguientes mejoras y cambios:
+
+- **Administración de Etiquetas:** Desde la administración de Django, ahora es posible agregar etiquetas que sean estrictamente necesarias según la historia del proyecto. Esto permite un control más granular sobre las etiquetas disponibles para las tareas.
+
+- **Vista de Listado de Tareas Pendientes:** Se generó una vista que muestra todas las tareas pendientes del usuario actual, ordenadas por fecha de vencimiento. En la parte superior de esta vista, encontrarás un botón "Agregar Tarea" que te llevará a la ventana de creación de tareas. Cada tarea en la lista tiene un botón "Ver" que te lleva a la vista de visualización de la tarea correspondiente.
+
+- **Vista de Visualización de Tarea:** En esta vista, puedes ver todos los detalles relacionados con una tarea seleccionada. En la parte superior, hemos agregado botones que te permiten realizar las siguientes acciones:
+
+  - **Editar Tarea:** Te lleva a la vista de edición de la tarea.
+  - **Eliminar:** Elimina la tarea después de la confirmación del usuario.
+  - **Completar:** Cambia el estado de la tarea de "pendiente" a "completada".
+  - **Retornar:** Te lleva de vuelta a la vista de listado de tareas.
+
+- **Carga de Datos en la Vista de Listado:** La vista de listado de tareas pendientes ahora carga los datos directamente desde la base de datos. Si no hay datos en la tabla correspondiente, puedes agregarlos directamente en la base de datos para ver reflejada la lista de tareas.
+
+- **Tarea Ingresada por Base de Datos:** Una tarea llamada "tareadb" fue creada por el usuario "admin" y se encuentra en la base de datos como parte de la demostración del proyecto.
+
+Estos cambios mejoran significativamente la funcionalidad de nuestro proyecto de gestión de tareas, permitiéndote administrar y visualizar tus tareas de manera más efectiva. ¡Esperamos que estos cambios sean útiles para ti!
