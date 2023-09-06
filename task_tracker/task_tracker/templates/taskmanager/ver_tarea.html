@@ -26,31 +26,45 @@
 </form>
 <br><br>
 <!-- Agregar un formulario para editar las observaciones -->
-<form method="POST" action="{% url 'editar_observaciones' task.id %}">
+<form method="POST" action="{% url 'ver_tarea' task.id %}">
     {% csrf_token %}
+    <input type="hidden" name="action" value="guardar_observaciones">
     <h3>Observaciones</h3>
     <textarea name="observaciones" rows="4" cols="50">{{ task.observaciones }}</textarea>
     <br>
     <button type="submit" class="btn btn-primary">Guardar Observaciones</button>
 </form>
+
 <br><br>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titulo</th>
-                <th>Descripción</th>
-                <th>Fecha de Vencimiento</th>
-                <th>Estado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ task.titulo }}</td>
-                <td>{{ task.descripcion }}</td>
-                <td>{{ task.fecha_vencimiento }}</td>
-                <td>{{ task.estado }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <a href="{% url 'listar_tareas_pendientes' %}" class="btn btn-secondary">Retornar</a>
+
+<div class="observaciones-section">
+    <h3>Historial de Observaciones</h3>
+    <ul>
+        {% for observacion in observaciones_tarea %}
+            <li>{{ observacion.fecha_creacion }}: {{ observacion.texto }}</li>
+        {% empty %}
+            <li>No hay observaciones registradas.</li>
+        {% endfor %}
+    </ul>
+</div>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titulo</th>
+            <th>Descripción</th>
+            <th>Fecha de Vencimiento</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ task.titulo }}</td>
+            <td>{{ task.descripcion }}</td>
+            <td>{{ task.fecha_vencimiento }}</td>
+            <td>{{ task.estado }}</td>
+        </tr>
+    </tbody>
+</table>
+<a href="{% url 'listar_tareas_pendientes' %}" class="btn btn-secondary">Retornar</a>
 {% endblock %}

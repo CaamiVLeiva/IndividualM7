@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, TaskForm, TaskFilterForm
-from .models import Task,Tag
+from .models import Task,Tag,Observacion
 
 # Create your views here.
 def login_view(request):
@@ -74,16 +74,27 @@ def crear_tarea(request):
 @login_required
 def ver_tarea(request, task_id):
     tarea = get_object_or_404(Task, pk=task_id)
-    # Obtén las etiquetas asociadas a la tarea
     etiquetas = tarea.etiquetas.all()
+
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == 'completar':
             tarea.estado = 'completada'
             tarea.save()
+        elif action == 'eliminar':
+            tarea.delete()
+        elif action == 'guardar_observaciones':
+            observaciones = request.POST.get('observaciones')
+            Observacion.objects.create(tarea=tarea, texto=observaciones)
+            # Redirige a la vista de visualización de tareas después de guardar observaciones
+            return redirect('ver_tarea', task_id=task_id)
+
     tareas_ordenadas = Task.objects.filter(usuario=request.user).order_by('fecha_vencimiento').prefetch_related('etiquetas')
-    # Pasa las etiquetas a la plantilla
-    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea, 'etiquetas': etiquetas, 'tareas_ordenadas': tareas_ordenadas})
+    observaciones_tarea = Observacion.objects.filter(tarea=tarea).order_by('-fecha_creacion')
+    # Pasa las etiquetas y observaciones a la plantilla
+    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea, 'etiquetas': etiquetas, 'tareas_ordenadas': tareas_ordenadas, 'observaciones_tarea': observaciones_tarea})
+
+
 
 @login_required
 def editar_tarea(request, task_id):
@@ -105,11 +116,11 @@ def eliminar_tarea(request, task_id):
         return redirect('listar_tareas_pendientes')
     return render(request, 'taskmanager/listar_tareas_pendientes', {'task': tarea})
 
-def editar_observaciones(request, pk):
-    tarea = get_object_or_404(Task, pk=pk)
+def editar_observaciones(request, task_id):
+    tarea = get_object_or_404(Task, pk=task_id)
     if request.method == 'POST':
         observaciones = request.POST.get('observaciones')
         tarea.observaciones = observaciones
         tarea.save()
-        return redirect('ver_tarea', task_id=pk)
+        return redirect('ver_tarea', task_id=task_id)
     return render(request, 'taskmanager/editar_observaciones.html', {'task': tarea})

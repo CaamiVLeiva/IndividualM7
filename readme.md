@@ -79,3 +79,21 @@ Se ha implementado una vista de edición de tareas que permite a los usuarios mo
 ### Implementación de la Vista de Edición
 
 Desde la vista de edición de tareas, los usuarios pueden realizar cambios en los datos de una tarea y guardar esos cambios. Una vez que los cambios se guardan correctamente, el sistema redirecciona al usuario a la vista de visualización de la tarea, donde pueden revisar los detalles actualizados. Esta funcionalidad proporciona a los usuarios una manera eficaz de editar y actualizar sus tareas de manera flexible.
+
+## Realización del Proyecto (Versión 6.0)
+
+En esta sexta versión del proyecto, se han incorporado nuevas funcionalidades en la vista de Visualización de Tareas para mejorar la interacción y la gestión de tareas. A continuación, se describen las adiciones realizadas:
+
+### Registro de Observaciones en la Vista de Visualización
+
+Se ha agregado un formulario en la vista de Visualización de Tareas que permite a los usuarios registrar observaciones sobre la tarea que están visualizando. Este formulario incluye un campo de texto en el que los usuarios pueden ingresar sus observaciones. Además, se ha incorporado un botón "Guardar Observaciones" que permite registrar estas observaciones en la base de datos. Al cargar la vista de Visualización, el campo de texto mostrará las observaciones previamente registradas, lo que facilita el seguimiento y la documentación detallada de las tareas.
+
+### Acciones en la Vista de Visualización de Tareas
+
+En la vista de Visualización de Tareas, se han agregado las siguientes acciones:
+
+- **Eliminar**: Esta acción permite a los usuarios eliminar el registro de la tarea que están visualizando. Una vez confirmada la eliminación, el registro se borrará de la base de datos, y luego se redireccionará al usuario a la vista de Listado de Tareas.
+
+- **Completar**: Con esta acción, los usuarios pueden cambiar el estado de la tarea de "pendiente" a "terminado". Después de que se haya realizado esta actualización en la base de datos, se redireccionará automáticamente al usuario a la vista de Listado de Tareas.
+
+Estas nuevas funcionalidades en la vista de Visualización de Tareas brindan a los usuarios un mayor control sobre la gestión de sus tareas y la capacidad de registrar observaciones importantes para cada tarea.

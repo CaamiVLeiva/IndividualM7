@@ -26,3 +26,8 @@ class Task(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+class Observacion(models.Model):
+    tarea = models.ForeignKey(Task, related_name='observaciones_task', on_delete=models.CASCADE)
+    texto = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
