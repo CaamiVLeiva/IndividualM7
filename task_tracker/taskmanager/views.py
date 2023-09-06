@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, TaskForm, TaskFilterForm
-from .models import Task,Tag,Observacion
+from .models import Task,Observacion, Prioridad
 
 # Create your views here.
 def login_view(request):
@@ -63,6 +63,10 @@ def crear_tarea(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             tarea = form.save(commit=False)
+            tarea.asignado_a = form.cleaned_data['asignado_a']
+
+            tarea.prioridad = form.cleaned_data['prioridad']
+            
             tarea.usuario = request.user
             tarea.save()
             form.save_m2m()
@@ -71,10 +75,12 @@ def crear_tarea(request):
         form = TaskForm()
     return render(request, 'taskmanager/crear_tarea.html', {'form': form})
 
+
 @login_required
 def ver_tarea(request, task_id):
     tarea = get_object_or_404(Task, pk=task_id)
     etiquetas = tarea.etiquetas.all()
+    prioridad = tarea.prioridad
 
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -92,7 +98,7 @@ def ver_tarea(request, task_id):
     tareas_ordenadas = Task.objects.filter(usuario=request.user).order_by('fecha_vencimiento').prefetch_related('etiquetas')
     observaciones_tarea = Observacion.objects.filter(tarea=tarea).order_by('-fecha_creacion')
     # Pasa las etiquetas y observaciones a la plantilla
-    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea, 'etiquetas': etiquetas, 'tareas_ordenadas': tareas_ordenadas, 'observaciones_tarea': observaciones_tarea})
+    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea, 'etiquetas': etiquetas, 'tareas_ordenadas': tareas_ordenadas, 'observaciones_tarea': observaciones_tarea, 'prioridad': prioridad})
 
 
 

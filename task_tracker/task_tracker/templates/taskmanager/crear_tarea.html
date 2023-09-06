@@ -1,7 +1,7 @@
 {% extends "taskmanager/base.html" %}
 {% block content %}
 <div class="container mt-5">
-    <h2>Editar Tarea</h2>
+    <h2>Crear Tarea</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form.titulo.label_tag }}
@@ -10,6 +10,14 @@
         {{ form.descripcion }}
         {{ form.fecha_vencimiento.label_tag }}
         <input type="datetime-local" id="id_fecha_vencimiento" name="fecha_vencimiento" required placeholder="YYYY-MM-DDTHH:mm" value="{{ task.fecha_vencimiento|date:'Y-m-d\TH:i' }}">
+        <div class="form-group">
+            <label for="{{ form.asignado_a.id_for_label }}">Asignar a:</label>
+            {{ form.asignado_a }}
+        </div>
+        <div class="form-check form-group">
+            <label class="form-check-label" for="{{ form.prioridad.id_for_label }}">¿Prioridad?</label>
+            {{ form.prioridad }}
+        </div>
         {{ form.etiquetas.label_tag }}
         {{ form.etiquetas }}
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>

@@ -8,6 +8,13 @@ class Tag(models.Model):
     def __str__(self):
         return self.nombre
 
+class Prioridad(models.Model):
+    nombre = models.CharField(max_length=50)
+    prioridad = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nombre
+
 class Task(models.Model):
     ESTADO_CHOICES = (
         ('pendiente', 'Pendiente'),
@@ -23,6 +30,8 @@ class Task(models.Model):
     etiquetas = models.ManyToManyField(Tag, related_name='tareas')
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     observaciones = models.TextField(blank=True, null=True)
+    asignado_a = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tareas_asignadas', blank=True, null=True)
+    prioridad = models.ForeignKey('Prioridad', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.titulo
@@ -31,3 +40,4 @@ class Observacion(models.Model):
     tarea = models.ForeignKey(Task, related_name='observaciones_task', on_delete=models.CASCADE)
     texto = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+

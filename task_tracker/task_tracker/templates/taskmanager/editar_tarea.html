@@ -10,6 +10,12 @@
         {{ form.descripcion }}
         {{ form.fecha_vencimiento.label_tag }}
         <input type="datetime-local" id="id_fecha_vencimiento" name="fecha_vencimiento" required placeholder="YYYY-MM-DDTHH:mm" value="{{ task.fecha_vencimiento|date:'Y-m-d\TH:i' }}">
+
+        <div class="form-check form-group">
+            <label class="form-check-label" for="{{ form.prioridad.id_for_label }}">¿Prioridad?</label>
+            {{ form.prioridad }}
+        </div>
+        
         {{ form.etiquetas.label_tag }}
         {{ form.etiquetas }}
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>

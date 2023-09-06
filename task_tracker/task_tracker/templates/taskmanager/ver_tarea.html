@@ -1,52 +1,14 @@
 {% extends "taskmanager/base.html" %}
 {% block content %}
 <h1>Detalles de Tarea</h1>
-
-<form method="POST" action="{% url 'editar_tarea' task.id %}">
-    {% csrf_token %}
-    <input type="hidden" name="action" value="editar">
-    <button type="submit" class="btn btn-primary">Editar</button>
-</form>
-{% if tarea.id %}
-    <a href="{% url 'editar_tarea' tarea.id %}">Editar Tarea</a>
+<a href="{% url 'listar_tareas_pendientes' %}" class="btn btn-secondary">Retornar</a>
+<br><br>
+<h3>Prioridad:</h3>
+{% if task.prioridad %}
+    <p>Sí</p>
+{% else %}
+    <p>No</p>
 {% endif %}
-
-<form method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');" action="{% url 'eliminar_tarea' task.id %}">
-    {% csrf_token %}
-    <input type="hidden" name="action" value="eliminar">
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-</form>
-
-<form method="POST" action="{% url 'ver_tarea' task.id %}">
-    {% csrf_token %}
-    <input type="hidden" name="action" value="completar">
-    <button type="submit" class="btn btn-success" {% if task.estado == 'completada' %}disabled{% endif %}>
-        {% if task.estado == 'completada' %}Completada{% else %}Completar{% endif %}
-    </button>
-</form>
-<br><br>
-<!-- Agregar un formulario para editar las observaciones -->
-<form method="POST" action="{% url 'ver_tarea' task.id %}">
-    {% csrf_token %}
-    <input type="hidden" name="action" value="guardar_observaciones">
-    <h3>Observaciones</h3>
-    <textarea name="observaciones" rows="4" cols="50">{{ task.observaciones }}</textarea>
-    <br>
-    <button type="submit" class="btn btn-primary">Guardar Observaciones</button>
-</form>
-
-<br><br>
-
-<div class="observaciones-section">
-    <h3>Historial de Observaciones</h3>
-    <ul>
-        {% for observacion in observaciones_tarea %}
-            <li>{{ observacion.fecha_creacion }}: {{ observacion.texto }}</li>
-        {% empty %}
-            <li>No hay observaciones registradas.</li>
-        {% endfor %}
-    </ul>
-</div>
 <br>
 <table class="table">
     <thead>
@@ -55,6 +17,7 @@
             <th>Descripción</th>
             <th>Fecha de Vencimiento</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -63,8 +26,62 @@
             <td>{{ task.descripcion }}</td>
             <td>{{ task.fecha_vencimiento }}</td>
             <td>{{ task.estado }}</td>
+            <td>
+                <form method="POST" action="{% url 'editar_tarea' task.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="editar">
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </form>
+                {% if tarea.id %}
+                    <a href="{% url 'editar_tarea' tarea.id %}">Editar Tarea</a>
+                {% endif %}
+                
+                <form method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');" action="{% url 'eliminar_tarea' task.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="eliminar">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+                
+                <form method="POST" action="{% url 'ver_tarea' task.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="completar">
+                    <button type="submit" class="btn btn-success" {% if task.estado == 'completada' %}disabled{% endif %}>
+                        {% if task.estado == 'completada' %}Completada{% else %}Completar{% endif %}
+                    </button>
+                </form>
+            </td>
         </tr>
     </tbody>
 </table>
-<a href="{% url 'listar_tareas_pendientes' %}" class="btn btn-secondary">Retornar</a>
+
+
+<br><br>
+<!-- Agregar un formulario para editar las observaciones -->
+<div class="row">
+    <div class="col-md-6">
+        <form method="POST" action="{% url 'ver_tarea' task.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="guardar_observaciones">
+            <h3>Observaciones</h3>
+            <textarea name="observaciones" rows="4" cols="50" class="form-control">{{ task.observaciones }}</textarea>
+            <br>
+            <button type="submit" class="btn btn-primary">Guardar Observaciones</button>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <div class="observaciones-section">
+            <h3>Historial de Observaciones</h3>
+            <ul>
+                {% for observacion in observaciones_tarea %}
+                    <li>{{ observacion.fecha_creacion }}: {{ observacion.texto }}</li>
+                {% empty %}
+                    <li>No hay observaciones registradas.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}

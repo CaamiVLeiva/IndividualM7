@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Task, Tag
+from .models import Task, Tag, Prioridad
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=30, required=True)
@@ -30,13 +30,22 @@ class TaskForm(forms.ModelForm):
         queryset=Tag.objects.all(),
         widget=forms.CheckboxSelectMultiple,
     )
+
+    # Agrega un campo para seleccionar la prioridad
+    prioridad = forms.ModelChoiceField(
+        queryset=Prioridad.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=False,
+    )
+
     class Meta:
         model = Task
-        fields = ['titulo','descripcion','fecha_vencimiento','etiquetas']
+        fields = ['titulo', 'descripcion', 'fecha_vencimiento', 'asignado_a', 'etiquetas', 'prioridad']
+
     widgets = {
         'fecha_vencimiento': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
     }
-    
+
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['fecha_vencimiento'].widget.attrs.update({'class': 'datepicker'})
@@ -50,3 +59,21 @@ class TaskFilterForm(forms.Form):
     estado = forms.ChoiceField(choices=Task.ESTADO_CHOICES, required=False)
     etiquetas = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
     fecha_vencimiento = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+
+class TaskEditForm(forms.ModelForm):
+    prioridad = forms.ModelChoiceField(
+        queryset=Prioridad.objects.all(),
+        required=False,
+    )
+
+    class Meta:
+        model = Task
+        fields = ['titulo', 'descripcion', 'fecha_vencimiento', 'etiquetas', 'prioridad']
+
+    widgets = {
+        'fecha_vencimiento': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+    }
+
+    def __init__(self, *args, **kwargs):
+        super(TaskEditForm, self).__init__(*args, **kwargs)
+        self.fields['fecha_vencimiento'].widget.attrs.update({'class': 'datepicker'})

@@ -97,3 +97,35 @@ En la vista de Visualización de Tareas, se han agregado las siguientes acciones
 - **Completar**: Con esta acción, los usuarios pueden cambiar el estado de la tarea de "pendiente" a "terminado". Después de que se haya realizado esta actualización en la base de datos, se redireccionará automáticamente al usuario a la vista de Listado de Tareas.
 
 Estas nuevas funcionalidades en la vista de Visualización de Tareas brindan a los usuarios un mayor control sobre la gestión de sus tareas y la capacidad de registrar observaciones importantes para cada tarea.
+
+## Realización del Proyecto (Versión 7.0)
+
+En esta séptima versión del proyecto, se han realizado modificaciones importantes para permitir la asignación de tareas a otros usuarios y la priorización de tareas. A continuación, se describen las adiciones y cambios realizados:
+
+### Asignación de Tareas a Otros Usuarios
+
+Para permitir la asignación de tareas a otros usuarios, se han realizado las siguientes modificaciones:
+
+- **Vista de Creación de Tareas**: Se ha habilitado la opción para que el usuario pueda seleccionar a qué usuario se le asignará la tarea al crearla.
+
+- **Almacenamiento del Usuario Asignado**: Al guardar una nueva tarea, ahora se almacena el usuario seleccionado como el destinatario de la tarea en lugar del usuario actual que la crea.
+
+### Priorización de Tareas
+
+Para la priorización de tareas, se han realizado las siguientes acciones:
+
+- **Creación del Modelo de Prioridades**: Se ha creado un modelo correspondiente a las prioridades de las tareas para permitir que estas sean dinámicas y personalizables.
+
+- **Migración de la Base de Datos**: Se ha realizado la migración correspondiente para incorporar el modelo de Prioridades en la base de datos.
+
+- **Gestión de Prioridades en la Administración de Django**: Se ha agregado el modelo de Prioridades a la gestión de entidades de la administración de Django. Esto permite a los superusuarios realizar las modificaciones necesarias en las prioridades de las tareas.
+
+- **Selección de Prioridad en la Vista de Creación**: En la vista de Creación de Tareas, los usuarios pueden seleccionar la prioridad que deseen para la tarea. Esta prioridad se guarda junto con los otros datos de la tarea.
+
+- **Visualización de la Prioridad en la Vista de Visualización**: En la vista de Visualización de Tareas, se muestra claramente cuál es la prioridad de la tarea, resaltando esta información de manera destacada.
+
+- **Cambio de Prioridad en la Vista de Edición**: En la vista de Edición de Tareas, los usuarios pueden cambiar la prioridad de la tarea y guardar este valor junto con los otros datos del registro.
+
+- **Columna de Prioridad en la Vista de Listado**: En la vista de Listado de Tareas, se ha agregado una columna para mostrar la prioridad de cada tarea en la tabla de despliegue.
+
+Estas adiciones y modificaciones en la séptima versión del proyecto mejoran significativamente la gestión y la organización de tareas, permitiendo asignar tareas a otros usuarios y priorizarlas según las necesidades del usuario.
