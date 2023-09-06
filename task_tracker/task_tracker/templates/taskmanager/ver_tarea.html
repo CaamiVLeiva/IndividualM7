@@ -7,6 +7,9 @@
     <input type="hidden" name="action" value="editar">
     <button type="submit" class="btn btn-primary">Editar</button>
 </form>
+{% if tarea.id %}
+    <a href="{% url 'editar_tarea' tarea.id %}">Editar Tarea</a>
+{% endif %}
 
 <form method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');" action="{% url 'eliminar_tarea' task.id %}">
     {% csrf_token %}

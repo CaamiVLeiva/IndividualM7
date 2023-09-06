@@ -37,7 +37,7 @@ def create_user(request):
 
 @login_required
 def listar_tareas_pendientes(request):
-    tareas_pendientes = Task.objects.filter(usuario=request.user).prefetch_related('etiquetas')  # Usamos prefetch_related para cargar las etiquetas relacionadas
+    tareas_pendientes = Task.objects.filter(usuario=request.user).order_by('fecha_vencimiento').prefetch_related('etiquetas')  # Usamos prefetch_related para cargar las etiquetas relacionadas
     if request.method == 'GET':
         form = TaskFilterForm(request.GET)
         if form.is_valid():
@@ -71,31 +71,32 @@ def crear_tarea(request):
         form = TaskForm()
     return render(request, 'taskmanager/crear_tarea.html', {'form': form})
 
+@login_required
 def ver_tarea(request, task_id):
     tarea = get_object_or_404(Task, pk=task_id)
-    
     # Obtén las etiquetas asociadas a la tarea
     etiquetas = tarea.etiquetas.all()
-    
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == 'completar':
             tarea.estado = 'completada'
             tarea.save()
-    
+    tareas_ordenadas = Task.objects.filter(usuario=request.user).order_by('fecha_vencimiento').prefetch_related('etiquetas')
     # Pasa las etiquetas a la plantilla
-    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea, 'etiquetas': etiquetas})
+    return render(request, 'taskmanager/ver_tarea.html', {'task': tarea, 'etiquetas': etiquetas, 'tareas_ordenadas': tareas_ordenadas})
 
+@login_required
 def editar_tarea(request, task_id):
     tarea = get_object_or_404(Task, id=task_id)
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=tarea)
         if form.is_valid():
             form.save()
-            return redirect('listar_tareas_pendientes')
+            return redirect('ver_tarea', task_id=task_id)
     else:
         form = TaskForm(instance=tarea)
     return render(request, 'taskmanager/editar_tarea.html', {'form': form, 'task': tarea})
+
 
 def eliminar_tarea(request, task_id):
     tarea = get_object_or_404(Task, pk=task_id)

@@ -63,3 +63,19 @@ La vista de creación y edición de tareas ha sido perfeccionada para que sea m�
 
 ### Función de Observaciones
 Respondiendo a la solicitud del cliente, hemos añadido un campo de observaciones en la vista de visualización de tareas. Los usuarios pueden registrar observaciones detalladas sobre cada tarea, y estas observaciones son editables en cualquier momento. Esto permite un mejor seguimiento y documentación de las tareas.
+
+## Realización del Proyecto (Versión 5.0)
+
+En esta quinta versión del proyecto, se han realizado las siguientes mejoras y adiciones:
+
+### Habilitación del Filtro en la Vista de Listado
+
+Se ha habilitado una función de filtro en la vista de listado de tareas. Con esta funcionalidad, los usuarios pueden aplicar filtros basados en diferentes criterios, como etiquetas, estado y fecha de vencimiento. Cada vez que se realice un cambio en los filtros, el listado mostrará las tareas activas del usuario que cumplan con las condiciones ingresadas y/o seleccionadas. Esto simplifica la gestión de tareas cuando se necesita buscar tareas específicas en una lista extensa.
+
+### Vista de Edición de Tareas
+
+Se ha implementado una vista de edición de tareas que permite a los usuarios modificar los datos de una tarea existente. En esta vista, se presentan los datos del formulario correspondiente, incluyendo la opción de seleccionar la etiqueta a la que corresponde la tarea. Es importante destacar que esta vista de edición comparte el mismo template con la vista de creación de tareas, lo que facilita la navegación y la interacción del usuario.
+
+### Implementación de la Vista de Edición
+
+Desde la vista de edición de tareas, los usuarios pueden realizar cambios en los datos de una tarea y guardar esos cambios. Una vez que los cambios se guardan correctamente, el sistema redirecciona al usuario a la vista de visualización de la tarea, donde pueden revisar los detalles actualizados. Esta funcionalidad proporciona a los usuarios una manera eficaz de editar y actualizar sus tareas de manera flexible.
